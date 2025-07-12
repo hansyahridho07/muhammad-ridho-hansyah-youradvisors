@@ -3,12 +3,15 @@ package com.example.multiform.controllers;
 import com.example.multiform.config.appHandler.ResponseHandler;
 import com.example.multiform.data.form.request.QuestionDataRequest;
 import com.example.multiform.data.form.request.ResponseDataRequest;
+import com.example.multiform.data.form.response.ResponseDataResponse;
 import com.example.multiform.services.form.ResponseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,5 +23,11 @@ public class ResponseController {
     public ResponseEntity<Object> createResponse(@RequestBody @Valid ResponseDataRequest request, @PathVariable("form_slug") String id) {
         responseService.createResponse(request, id);
         return ResponseHandler.success("Submit response success","question", null, HttpStatus.CREATED);
+    }
+    
+    @GetMapping("/{form_slug}/responses")
+    public ResponseEntity<Object> getResponse(@PathVariable("form_slug") String formId) {
+        List<ResponseDataResponse> result = responseService.toResponses(formId);
+        return ResponseHandler.success("Get responses success","responses", result, HttpStatus.OK);
     }
 }

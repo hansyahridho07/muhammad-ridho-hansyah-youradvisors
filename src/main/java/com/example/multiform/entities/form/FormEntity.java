@@ -60,5 +60,5 @@ public class FormEntity {
     private List<QuestionEntity> questions = new ArrayList<>();
     
     @OneToMany(mappedBy = "form", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<QuestionEntity> responses = new ArrayList<>();
+    private List<ResponseEntity> responses = new ArrayList<>();
 }
