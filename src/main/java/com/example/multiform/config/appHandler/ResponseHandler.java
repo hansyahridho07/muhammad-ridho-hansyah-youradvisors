@@ -46,18 +46,11 @@ public class ResponseHandler<T> {
     }
     
     public static <T> ResponseEntity<Object> success(String message, String fieldName, List<T> data, HttpStatus status) {
-        ResponseHandler<T> response = new ResponseHandler<>();
-        response.setMessage(message);
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", message);
+        response.put(fieldName, data);
         
-        // Use reflection to set the field dynamically
-        try {
-            Field field = response.getClass().getDeclaredField(fieldName);
-            field.setAccessible(true);
-            field.set(response, data);
-        } catch (Exception e) {
-            // Fallback: could add a generic 'data' field
-        }
-        return new ResponseEntity(response, status);
+        return new ResponseEntity<>(response, status);
     }
     
     // Array errors response

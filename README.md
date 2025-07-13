@@ -15,11 +15,6 @@ Ini digunakan sebagai simulasi penerapan multi tenancy. Maka setiap user akan me
 
 - Path: POST /api/v1/company/register
 
-- Headers
-```js
-company_id
-```
-
 - Request Body
 ```js
   {
@@ -42,7 +37,7 @@ company_id
 
 - Headers
 ```js
-company_id
+company_id // jika menggunakan credential yang saya sediakan, bisa menggunakan id [07dcaa52-1dca-481a-9697-901c947e0aa0]
 ```
 
 - Request Body
@@ -82,11 +77,16 @@ Sebelum user bisa login ke account, user harus memverifikasi diri terelbih dahul
 
 - Path: POST /api/v1/auth/login
 
+- Headers
+```js
+company_id // jika menggunakan credential yang saya sediakan, bisa menggunakan id [07dcaa52-1dca-481a-9697-901c947e0aa0]
+```
+
 - Request Body
 ```js
 {
     "email": "ridho1@maildrop.cc",
-    "password": "password"
+        "password": "password"
 }
 ```
 
@@ -94,9 +94,9 @@ Sebelum user bisa login ke account, user harus memverifikasi diri terelbih dahul
 ```js
 {
     "message": "Successfully login",
-    "form": {
+        "form": {
         "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyaWRobzFAbWFpbGRyb3AuY2MiLCJpYXQiOjE3NTIyODI3NTUsImV4cCI6MTc1MjI4NjM1NX0.yxatsZAIMsh1RGtNIenv_LVcredldWaDucO2-SrFxHw",
-        "expiresIn": 3600000
+            "expiresIn": 3600000
     }
 }
 ```
@@ -114,12 +114,12 @@ Authorization: Bearer
 
 - Request Body
 ```js
-{ 
-"name": "Stacks of Web Tech Members", 
-"slug": "member-stacks", 
-"allowed_domains": [ "webtech.id" ], 
-"description": "To collect all of favorite stacks", 
-"limit_one_response": true 
+{
+    "name": "Stacks of Web Tech Members",
+        "slug": "member-stacks",
+        "allowed_domains": [ "webtech.id" ],
+        "description": "To collect all of favorite stacks",
+        "limit_one_response": true
 } 
 ```
 
@@ -127,13 +127,13 @@ Authorization: Bearer
 ```js
 {
     "message": "Successfully create form",
-    "form": {
+        "form": {
         "name": "Stacks of Web Tech Members",
-        "slug": "member-stacks",
-        "description": "To collect all of favorite stacks",
-        "id": 102,
-        "limit_one_response": true,
-        "creator_id": 1
+            "slug": "member-stacks",
+            "description": "To collect all of favorite stacks",
+            "id": 102,
+            "limit_one_response": true,
+            "creator_id": 1
     }
 }
 ```
@@ -151,7 +151,7 @@ Authorization: Bearer
 ```js
 {
     "message": "Get all forms success",
-    "form": [
+        "form": [
         {
             "name": "Stacks of Web Tech Members",
             "slug": "member-stacks",
@@ -177,12 +177,12 @@ Authorization: Bearer
 ```js
 {
     "message": "Get form success",
-    "form": {
+        "form": {
         "name": "Stacks of Web Tech Members",
-        "slug": "member-stacks",
-        "description": "To collect all of favorite stacks",
-        "id": 52,
-        "questions": [
+            "slug": "member-stacks",
+            "description": "To collect all of favorite stacks",
+            "id": 52,
+            "questions": [
             {
                 "id": 2,
                 "name": "Most Favorite JS Framework",
@@ -192,9 +192,9 @@ Authorization: Bearer
                 "is_required": true
             }
         ],
-        "limit_one_response": true,
-        "creator_id": 1,
-        "allowed_domains": [
+            "limit_one_response": true,
+            "creator_id": 1,
+            "allowed_domains": [
             "webtech.id"
         ]
     }
@@ -217,14 +217,14 @@ Authorization: Bearer
 ```js
 {
     "name": "Most Favorite JS Framework",
-    "choice_type": "multiple choice",
-    "choices": [
+        "choice_type": "multiple choice",
+        "choices": [
         "React JS",
         "Vue JS",
         "Angular JS",
         "Svelte"
     ],
-    "is_required": true
+        "is_required": true
 }
 ```
 

@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -69,17 +70,19 @@ public class ResponseService implements IResponseHandler {
     public List<ResponseDataResponse> toResponses(String formId) {
         FormEntity form = formRepository.findById(Long.parseLong(formId))
             .orElseThrow(() -> new NoSuchElementException("Form not found"));
+        
         Hibernate.initialize(form.getResponses());
         List<ResponseEntity> responses = form.getResponses();
         List<ResponseDataResponse> responseDataResponses = new ArrayList<>();
+        
         responses.forEach(response -> {
             Hibernate.initialize(response.getUser());
             UserEntity user = response.getUser();
             Hibernate.initialize(response.getAnswers());
             List<AnswerEntity> answers = response.getAnswers();
+            
+            answers.forEach(answer -> Hibernate.initialize(answer.getQuestion()));
             answers.forEach(answer -> {
-//                QuestionEntity questions = answer.getQuestion();
-                
                 ResponseDataResponse.UserResponse userResponse = new ResponseDataResponse.UserResponse()
                     .builder()
                     .id(user.getId())
@@ -106,12 +109,10 @@ public class ResponseService implements IResponseHandler {
             });
         });
         
-        //select * from form f inner join response r on f.id = r.form_id
         return responseDataResponses;
     }
     
     private String convertDateToString(LocalDateTime now) {
-//        LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return now.format(formatter);
     }
