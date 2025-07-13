@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.mapstruct.Named;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Component
@@ -57,5 +59,11 @@ public class AuthMapperService {
         array.forEach(el -> domains.add(el.getDomain()));
         return domains;
 //        return String.join(",", domains);
+    }
+    
+    @Named("convertDateToString")
+    public String convertDateToString(LocalDateTime now) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return now.format(formatter);
     }
 }

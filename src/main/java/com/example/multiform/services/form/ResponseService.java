@@ -9,6 +9,7 @@ import com.example.multiform.entities.form.QuestionEntity;
 import com.example.multiform.entities.form.ResponseEntity;
 import com.example.multiform.helpers.GetDataUser;
 import com.example.multiform.interfaces.IResponseHandler;
+import com.example.multiform.mappers.form.IResponseMapper;
 import com.example.multiform.repositories.form.AnswerRepository;
 import com.example.multiform.repositories.form.FormRepository;
 import com.example.multiform.repositories.form.QuestionRepository;
@@ -30,6 +31,8 @@ public class ResponseService implements IResponseHandler {
     final AnswerRepository answerRepository;
     final FormRepository formRepository;
     final QuestionRepository questionRepository;
+    
+    final IResponseMapper responseMapper;
     
     @Override
     @Transactional
@@ -83,28 +86,9 @@ public class ResponseService implements IResponseHandler {
             
             answers.forEach(answer -> Hibernate.initialize(answer.getQuestion()));
             answers.forEach(answer -> {
-                ResponseDataResponse.UserResponse userResponse = new ResponseDataResponse.UserResponse()
-                    .builder()
-                    .id(user.getId())
-                    .name(user.getName())
-                    .email(user.getEmail())
-                    .emailVerifiedAt(user.getEmailVerifiedAt())
-                    .build();
-                
-                ResponseDataResponse.AnswerResponse answerResponse = new ResponseDataResponse.AnswerResponse().builder()
-                    .name("-name-")
-                    .address("-address-")
-                    .bornDate("-bornDate-")
-                    .sex("-sex-")
-                    .value(answer.getValue())
-                    .build();
-                
-                ResponseDataResponse dataResponse = new ResponseDataResponse()
-                    .builder()
-                    .date(convertDateToString(response.getDate()))
-                    .user(userResponse)
-                    .answers(answerResponse)
-                    .build();
+                ResponseDataResponse.UserResponse userResponse = responseMapper.toUserResponse(user);
+                ResponseDataResponse.AnswerResponse answerResponse = responseMapper.toAnswerResponse(answer);
+                ResponseDataResponse dataResponse = responseMapper.toResponseDataResponse(userResponse, answerResponse, response);
                 responseDataResponses.add(dataResponse);
             });
         });
