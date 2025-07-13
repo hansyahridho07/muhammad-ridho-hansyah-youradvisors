@@ -10,13 +10,10 @@
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>multiform</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-RELEASE</version>
 	<name>multiform</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Technicall test untuk kebutuhan recruitment di YourAdvisors</description>
 	<url/>
-	<licenses>
-		<license/>
-	</licenses>
 	<developers>
 		<developer/>
 	</developers>
